@@ -2,10 +2,13 @@
  *
  * Use the code below to start a bare-bone express web server
 
+ */
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import { graphqlHTTP } from 'express-graphql';
+import {rootValue, schema} from "./schema";
 
 import * as config from './config';
 
@@ -18,9 +21,11 @@ async function main() {
   server.use('/:fav.ico', (req, res) => res.sendStatus(204));
 
   // Example route
-  server.use('/', (req, res) => {
-    res.send('Hello World');
-  });
+  server.use('/',    graphqlHTTP({
+    schema,
+    rootValue,
+    graphiql: true,
+  }));
 
   // This line rus the server
   server.listen(config.port, () => {
@@ -30,4 +35,10 @@ async function main() {
 
 main();
 
-*/
+
+// const executeGraphQLRequest = async request => {
+//   const resp = await graphql(schema, request, rootValue);
+//   console.log(resp.data);
+// };
+//
+// executeGraphQLRequest(process.argv[2])
