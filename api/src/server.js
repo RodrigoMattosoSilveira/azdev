@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import { graphqlHTTP } from 'express-graphql';
-import {rootValue, schema} from "./schema";
+import { schema } from './schema';
 
 import * as config from './config';
 
@@ -23,7 +23,6 @@ async function main() {
   // Example route
   server.use('/',    graphqlHTTP({
     schema,
-    rootValue,
     graphiql: true,
   }));
 
