@@ -5,9 +5,11 @@ import {
     GraphQLInt,
     GraphQLNonNull,
     printSchema,
+    GraphQLList,
 } from 'graphql';
 import NumbersInRange from './types/numbers-in-range';
 import NumbersInRangeAverage from './types/numbers-in-range-average';
+import Task from "./types/task";
 
 import {numbersInRangeAverageObject, numbersInRangeObject} from '../utils';
 
@@ -66,6 +68,23 @@ const QueryType = new GraphQLObjectType({
                 return numbersInRangeAverageObject(begin, end);
             },
         },
+        taskMainList: {
+            type: new GraphQLList(new GraphQLNonNull(Task)),
+            resolve: async (source, args, { pgPool }) => {
+                const pgResp = await pgPool.query(`
+                    SELECT id, 
+                           content, 
+                           tags, 
+                           approach_count AS "approachCount", 
+                           created_at AS "createdAt"
+                    FROM azdev.tasks
+                    WHERE is_private = FALSE
+                    ORDER BY created_at DESC
+                    LIMIT 100
+                `);
+            return pgResp.rows;
+            },
+        }
     },
 });
 

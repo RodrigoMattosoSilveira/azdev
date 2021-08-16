@@ -1,6 +1,7 @@
 {
   "name": "az.dev",
   "version": "0.0.1",
+  "License": "MIT",
   "private": true,
   "scripts": {
     "start-dbs": "docker-compose -f dev-dbs/docker.yml up",
@@ -24,6 +25,7 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "docker-compose": "^0.23.13",
     "eslint": "^7.20.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
