@@ -28,6 +28,19 @@ async function main() {
     schema,
     context: { pgApi },
     graphiql: true,
+    customFormatErrorFn: (err) => {
+      const errorReport = {
+        message: err.message,
+        locations: err.locations,
+        stack: err.stack ? err.stack.split('\n') : [], // Makes the error stack show up in development, which is very handy
+          path: err.path,
+    };
+      console.error('GraphQL Error', errorReport); // Logs the error in the server logs
+        return config.isDev
+            ? errorReport
+            : { message: 'Oops! Something went wrong! :(' }; // Returns a generic error in production
+    },
+
   }));
 
   // This line rus the server
