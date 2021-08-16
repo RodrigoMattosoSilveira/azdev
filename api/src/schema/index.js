@@ -3,7 +3,8 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
-    GraphQLNonNull, GraphQLFloat,
+    GraphQLNonNull,
+    printSchema,
 } from 'graphql';
 import NumbersInRange from './types/numbers-in-range';
 import NumbersInRangeAverage from './types/numbers-in-range-average';
@@ -60,3 +61,5 @@ const QueryType = new GraphQLObjectType({
 export const schema = new GraphQLSchema({
     query: QueryType,
 });
+
+console.log(printSchema(schema));
