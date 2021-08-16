@@ -14,11 +14,22 @@ import {numbersInRangeAverageObject, numbersInRangeObject} from '../utils';
 const QueryType = new GraphQLObjectType({
     name: 'Query',
     fields: {
+        // currentTime: {
+        //     type: GraphQLString,
+        //     resolve: () => {
+        //         const isoString = new Date().toISOString();
+        //         return isoString.slice(11, 19);
+        //     },
+        // },
         currentTime: {
             type: GraphQLString,
             resolve: () => {
-                const isoString = new Date().toISOString();
-                return isoString.slice(11, 19);
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        const isoString = new Date().toISOString();
+                        resolve(isoString.slice(11, 19));
+                    }, 5000);
+                });
             },
         },
         sumNumbersInRange: {
