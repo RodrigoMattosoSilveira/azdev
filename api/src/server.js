@@ -11,10 +11,11 @@ import { graphqlHTTP } from 'express-graphql';
 import { schema } from './schema';
 
 import * as config from './config';
-import pgClient from './db/pg-client';
+import pgApiWrapper from './db/pg-api'; // This line replaces the pg-client import line.
 
 async function main() {
-  const { pgPool } = await pgClient();
+  const pgApi = await pgApiWrapper(); // This line replaces the pgClient() call line.
+
   const server = express();
   server.use(cors());
   server.use(morgan('dev'));
@@ -25,7 +26,7 @@ async function main() {
   // Example route
   server.use('/',    graphqlHTTP({
     schema,
-    context: { pgPool },
+    context: { pgApi },
     graphiql: true,
   }));
 
