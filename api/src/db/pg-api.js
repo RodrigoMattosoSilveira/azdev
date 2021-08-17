@@ -11,6 +11,11 @@ const pgApiWrapper = async () => {
             const pgResp = await pgQuery(sqls.tasksLatest); //The tasksLatest SQL statement is already in api/src/db/sqls.js.
             return pgResp.rows;
         },
+        userInfo: async (userId) => {
+            const pgResp = await pgQuery(sqls.usersFromIds, { $1: [userId] }); // Passes $1 to the SQL statement as [userId]
+            return pgResp.rows[0];
+        },
+
     };
 };
 
