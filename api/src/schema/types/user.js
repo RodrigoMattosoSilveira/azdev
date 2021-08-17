@@ -13,7 +13,7 @@ const User = new GraphQLObjectType({
         name: {
             type: GraphQLString,
             resolve: ({ firstName, lastName }) =>
-                `${firstName} ${lastName}`,
+                [firstName, lastName].filter(Boolean).join(' '),
         },
     },
 });
