@@ -12,11 +12,16 @@ const pgApiWrapper = async () => {
             return pgResp.rows;
         },
         userInfo: async (userId) => {
-            const pgResp = await pgQuery(sqls.usersFromIds, { $1: [userId] }); // Passes $1 to the SQL statement as [userId]
+            const pgResp = await pgQuery(sqls.usersFromIds, {$1: [userId]}); // Passes $1 to the SQL statement as [userId]
             return pgResp.rows[0];
         },
-
-    };
+        approachList: async (taskId) => {
+            const pgResp = await pgQuery(sqls.approachesForTaskIds, {
+                $1: [taskId], // Passes $1 to the SQL statement as [taskId]
+            });
+            return pgResp.rows;
+        },
+    }
 };
 
 export default pgApiWrapper;
