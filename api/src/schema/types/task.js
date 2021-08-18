@@ -25,9 +25,12 @@ const Task = new GraphQLObjectType({
             type: new GraphQLNonNull(
                 new GraphQLList(new GraphQLNonNull(Approach)) // Approach is the new GraphQL type we need to introduce.
             ),
-            resolve: (source, args, { pgApi }) =>
-                pgApi.approachList(source.id), // pgApi.approachList receives the ID of a Task object (source.id) and should return a list of Approach objects.
-            },
+            // resolve: (source, args, { pgApi }) =>
+            //     pgApi.approachList(source.id), // pgApi.approachList receives the ID of a Task object (source.id) and should return a list of Approach objects.
+            // },
+            resolve: (source, args, { loaders }) =>
+                loaders.approachLists.load(source.id),
+        },
         createdAt: {
             type: new GraphQLNonNull(GraphQLString),
             resolve: (source) => source.createdAt.toISOString(),

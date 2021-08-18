@@ -27,7 +27,15 @@ const pgApiWrapper = async () => {
             });
             return pgResp.rows;
         },
-    }
+        approachLists: async (taskIds) => { // Plural names
+            const pgResp = await pgQuery(sqls.approachesForTaskIds, {
+                $1: taskIds, // Passes $1 as the taskIds array
+            });
+            return taskIds.map((taskId) =>
+                pgResp.rows.filter((row) => taskId === row.taskId), // Splits the rows and groups them under their corresponding taskId value.
+            );
+        },
+}
 };
 
 export default pgApiWrapper;
